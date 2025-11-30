@@ -10,6 +10,7 @@ let crane;
 let isPlaying = false;
 let bgSongNum;
 let bgSong;
+let cranes = [];
 
 function preload() {
   gif = loadImage('assets/happybirb.gif');
@@ -24,6 +25,7 @@ function preload() {
 
 /* SETUP RUNS ONCE */
 function setup() {
+  //createCanvas(windowWidth, windowHeight);
   createCanvas(500, 500);
   /*var s = 50;
   var rows = floor(height/s);
@@ -79,8 +81,9 @@ function setup() {
     'assets/crane20.PNG'
   );
   craneAni.frameDelay = 3;
+  craneAni.depth = 10;
 
-  bgSongNum = Math.floor(random(5));
+  bgSongNum = Math.floor(random(1, 5));
   if (bgSongNum == 0) {
     bgSong = song1;
   } else if (bgSongNum == 1) {
@@ -103,8 +106,10 @@ function setup() {
   light = createSprite(20, 20, 60);
   light.shape = "circle";
   light.color = "#dfe4ed";
+  light.depth = 0;
   player = createSprite(10, 20, 20, 20);
   player.overlaps(light);
+  player.depth = 1;
   player.addAni('side', 'assets/side1.png',
     'assets/side2.png',
     'assets/side3.png',
@@ -119,6 +124,18 @@ function setup() {
     'assets/back4.png');
   player.addAni('idle', 'assets/idle.png');
   //player.height = 10;
+
+  for (let i = 0; i < 10; i++) {
+    let crane = createSprite(0, 0);
+    crane.addAni('fly', craneAni);
+    crane.ani = 'fly';
+    crane.rotation = 0;
+    crane.rotationSpeed = 0;
+    crane.depth = 10;
+    crane.scale = 0.06;
+    crane.visible = false;
+    cranes.push(crane);
+  }
 }
 
 function draw() {
@@ -130,7 +147,19 @@ function draw() {
     if (bgSong.isPlaying()) {
       bgSong.stop();
     } else {
-      bgSong.loop();
+      let newSongNum = Math.floor(random(1, 5));
+      if (newSongNum == 0) {
+        bgSong = song1;
+      } else if (newSongNum == 1) {
+        bgSong = song2;
+      } else if (newSongNum == 2) {
+        bgSong = song3;
+      } else if (newSongNum == 3) {
+        bgSong = song4;
+      } else {
+        bgSong = song5;
+      }
+      bgSong.play();
     }
   }
 
@@ -138,7 +167,7 @@ function draw() {
 
   //maze.display();
   textSize(12);
-  text("Use your arrow keys to move \naround. It's pitch black right now, \nbut as you collect more cranes, \nthe amount of light you have will \nincreaae :) Collect ten cranes!", width - 100, 60);
+  text("Use your arrow keys to move \naround. It's pitch black right now, \nbut as you collect more cranes, \nthe amount of light you have will \nincrease :) Collect ten cranes!", width - 100, 60);
   text("Press space to play/stop bg music", width - 320, 30);
   text("People say, if you fold 1000 origami \ncranes, you will be granted one singular wish...", 150, height - 45);
 
@@ -216,8 +245,11 @@ function draw() {
 
   //Checks if there's a crane in the player's line of sight
   if (Math.abs(light.x - x1 * 0.06) <= light.d / 2 && Math.abs(light.y - y1 * 0.06) <= light.d / 2) {
+    push();
     scale(0.06);
     animation(craneAni, x1, y1);
+    pop();
+
     if (Math.abs(light.x - x1 * 0.06) <= 10 && Math.abs(light.y - y1 * 0.06) <= 10) {
       collect.play();
       score += 100;
@@ -228,8 +260,11 @@ function draw() {
   }
 
   if (Math.abs(light.x - x2 * 0.06) <= light.d / 2 && Math.abs(light.y - y2 * 0.06) <= light.d / 2) {
+    push();
     scale(0.06);
     animation(craneAni, x2, y2);
+    pop();
+
     if (Math.abs(light.x - x2 * 0.06) <= 10 && Math.abs(light.y - y2 * 0.06) <= 10) {
       //if (!collect.isPlaying()) {
       collect.play();
@@ -243,8 +278,11 @@ function draw() {
   }
 
   if (Math.abs(light.x - x3 * 0.06) <= light.d / 2 && Math.abs(light.y - y3 * 0.06) <= light.d / 2) {
+    push();
     scale(0.06);
     animation(craneAni, x3, y3);
+    pop();
+
     if (Math.abs(light.x - x3 * 0.06) <= 10 && Math.abs(light.y - y3 * 0.06) <= 10) {
       collect.play();
       score += 100;
@@ -255,8 +293,11 @@ function draw() {
   }
 
   if (Math.abs(light.x - x4 * 0.06) <= light.d / 2 && Math.abs(light.y - y4 * 0.06) <= light.d / 2) {
+    push();
     scale(0.06);
     animation(craneAni, x4, y4);
+    pop();
+
     if (Math.abs(light.x - x4 * 0.06) <= 10 && Math.abs(light.y - y4 * 0.06) <= 10) {
       collect.play();
       score += 100;
@@ -267,8 +308,11 @@ function draw() {
   }
 
   if (Math.abs(light.x - x5 * 0.06) <= light.d / 2 && Math.abs(light.y - y5 * 0.06) <= light.d / 2) {
+    push();
     scale(0.06);
     animation(craneAni, x5, y5);
+    pop();
+
     if (Math.abs(light.x - x5 * 0.06) <= 10 && Math.abs(light.y - y5 * 0.06) <= 10) {
       collect.play();
       score += 100;
@@ -279,8 +323,11 @@ function draw() {
   }
 
   if (Math.abs(light.x - x6 * 0.06) <= light.d / 2 && Math.abs(light.y - y6 * 0.06) <= light.d / 2) {
+    push();
     scale(0.06);
     animation(craneAni, x6, y6);
+    pop();
+    
     if (Math.abs(light.x - x6 * 0.06) <= 10 && Math.abs(light.y - y6 * 0.06) <= 10) {
       collect.play();
       score += 100;
@@ -291,8 +338,11 @@ function draw() {
   }
 
   if (Math.abs(light.x - x7 * 0.06) <= light.d / 2 && Math.abs(light.y - y7 * 0.06) <= light.d / 2) {
+    push();
     scale(0.06);
     animation(craneAni, x7, y7);
+    pop();
+
     if (Math.abs(light.x - x7 * 0.06) <= 10 && Math.abs(light.y - y7 * 0.06) <= 10) {
       collect.play();
       score += 100;
@@ -303,8 +353,11 @@ function draw() {
   }
 
   if (Math.abs(light.x - x8 * 0.06) <= light.d / 2 && Math.abs(light.y - y8 * 0.06) <= light.d / 2) {
+    push();
     scale(0.06);
     animation(craneAni, x8, y8);
+    pop();
+
     if (Math.abs(light.x - x8 * 0.06) <= 10 && Math.abs(light.y - y8 * 0.06) <= 10) {
       collect.play();
       score += 100;
@@ -315,8 +368,11 @@ function draw() {
   }
 
   if (Math.abs(light.x - x9 * 0.06) <= light.d / 2 && Math.abs(light.y - y9 * 0.06) <= light.d / 2) {
+    push();
     scale(0.06);
     animation(craneAni, x9, y9);
+    pop();
+
     if (Math.abs(light.x - x9 * 0.06) <= 10 && Math.abs(light.y - y9 * 0.06) <= 10) {
       collect.play();
       score += 100;
@@ -327,8 +383,11 @@ function draw() {
   }
 
   if (Math.abs(light.x - x10 * 0.06) <= light.d / 2 && Math.abs(light.y - y10 * 0.06) <= light.d / 2) {
+    push();
     scale(0.06);
     animation(craneAni, x10, y10);
+    pop();
+    
     if (Math.abs(light.x - x10 * 0.06) <= 10 && Math.abs(light.y - y10 * 0.06) <= 10) {
       collect.play();
       score += 100;
@@ -349,6 +408,11 @@ function introScreen() {
 }*/
 
 function endScreen() {
+  light.visible = false;
+  player.visible = false;
+  for (let crane of cranes) {
+    crane.visible = false;
+  }
   background("#6e8fc4");
   //background("#dfe4ed");
   if (!isPlaying) {
@@ -359,12 +423,18 @@ function endScreen() {
   textAlign(CENTER);
   //textColor("#1d1e26")
   text("You winnnnn!!!!! \nGo ahead and make a wish. \nWho knows, maybe it will \ncome true someday :)", width / 2, height / 2 - 135);
+  
+  push();
   scale(0.908);
   image(gif, 27, height / 2 + 10);
+  pop();
+
+  push();
   scale(0.06);
   animation(craneAni, 8100, 700);
   //scale(-1, 1);
   animation(craneAni, 850, 700);
+  pop();
   //animation(craneAni, 4475, 700);
   //setTimeout(endScreen, 1000);
 }
